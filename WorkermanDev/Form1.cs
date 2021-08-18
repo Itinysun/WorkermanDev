@@ -1,20 +1,229 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using WorkermanDev.Event;
+using WorkermanDev.Lib;
+
 
 namespace WorkermanDev
 {
+    // 1.定义委托
+
+
+
     public partial class Form1 : Form
     {
+
+
+
+
+
         public Form1()
         {
             InitializeComponent();
+            LogWriter.OnLogWrite += LogWriter_OnLogWrite;
+            ExceptionWriter.OnExceptionSaveError += ExceptionWriter_OnExceptionSaveError;
+            FileWatch.OnFileChanged += FileWatch_OnFileChanged;
+            ConfigFile.Init();
+            InitMainProcess();
+        }
+
+        private void ExceptionWriter_OnExceptionSaveError(string content)
+        {
+            MessageBox.Show("Error! Can't save exception to file!", content, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+        }
+
+        private void FileWatch_OnFileChanged(FileInfo fi)
+        {
+            
+        }
+
+        private void LogWriter_OnLogWrite(LogEvent.LogWriteEventArgs e)
+        {
+            if (LogBox.InvokeRequired)
+            {
+                this.Invoke(new LogEvent.LogHandle(WriteToRichText), e);
+            }
+            else
+            {
+                WriteToRichText(e);
+            }
+        }
+        private void WriteToRichText(LogEvent.LogWriteEventArgs e)
+        {
+            if (e.cleanScreen)
+            {
+                LogBox.Clear();
+            }
+            LogBox.SelectionColor = e.color;
+            LogBox.AppendText(DateTime.Now.ToString("[hh:mm:ss] ")+ e.content + Environment.NewLine);
+        }
+
+        void StartButton_Click(object sender, EventArgs e)
+        {
+            //Process_init();
+            //BeginMonitorPath("app");
+            //BeginMonitorPath("support");
+            //BeginMonitorPath("process");
+            //BeginMonitorPath("config");
+            //Process_start();
+        }
+        private void StopButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void InitMainProcess()
+        {
+            var errors = "";
+            string php = ConfigFile.GetValue("php-path");
+            if (string.IsNullOrEmpty(php))
+            {
+                errors += " [php path] ";
+            }
+            string start = ConfigFile.GetValue("start-path");
+            if (string.IsNullOrEmpty(start))
+            {
+                errors += " [start path] ";
+            }
+            if (string.IsNullOrEmpty(errors))
+            {
+                MainProcess.Init(php, start);
+            }
+            else
+            {
+                LogWriter.WriteErrorLog("You have to finish config first!", new Exception("Please set :"+errors));
+            }
+        }
+
+        private void InitFilter()
+        {
+
+        }
+
+        private void InitMonitor()
+        {
+            
+        }
+
+        private void InitDebounce()
+        {
+            string t = ConfigFile.GetValue("debounce");
+            if (string.IsNullOrEmpty(t))
+            {
+                t = "2";
+            }
+            int real_time = 0;
+            if(!int.TryParse(t,out real_time))
+            {
+                real_time = 2;
+            }
+            MainProcess.SetDeBounce(real_time);
+        }
+
+        private void buttonSelectPhp_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Multiselect = false;
+            op.Title = "Please select php.exe for workerman runtime";
+            op.Filter = "php.exe|php.exe";
+            if(op.ShowDialog() == DialogResult.OK)
+            {
+                setPhpPath(op.FileName);
+            }
+        }
+        private void setPhpPath(string path)
+        {
+            textBoxPhp.Text = path;
+            ConfigFile.SetValue("php-path", path);
+        }
+
+        private void buttonStartpath_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Multiselect = false;
+            op.Title = "Please select bootstap file";
+            op.Filter = "php|*.php";
+            if (op.ShowDialog() == DialogResult.OK)
+            {
+                setPhpPath(op.FileName);
+            }
+        }
+        private void setStartPath(string path)
+        {
+            ConfigFile.SetValue("start-path", path);
+        }
+
+        private void File_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Link;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void textBoxPhp_DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                string p = ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+                FileInfo fi = new FileInfo(p);
+                if(fi.Extension.ToLower().Equals(".exe") && fi.Name.ToLower().Equals("php"))
+                {
+                    setPhpPath(p);
+                }
+                else
+                {
+                    throw new Exception("error");
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error", "Please select php.exe", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void textBoxStart_DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                string p = ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+                FileInfo fi = new FileInfo(p);
+                if (fi.Extension.ToLower().Equals(".php"))
+                {
+                    setStartPath(p);
+                }
+                else
+                {
+                    throw new Exception("error");
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error", "Please select a php file(*.php)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void numericUpDownDebounce_ValueChanged(object sender, EventArgs e)
+        {
+            var d = (int)numericUpDownDebounce.Value;
+            MainProcess.SetDeBounce(d);
+            ConfigFile.SetValue("debounce", d.ToString());
+        }
+
+        private void toolStripButtonAddMonitor_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
