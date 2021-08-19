@@ -71,19 +71,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -109,10 +109,13 @@
     <None Include="Resources\48761_file_add_upload_icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\48762_remove_delete_delete file_icon.ico" />
+    <None Include="Resources\285657_floppy_guardar_save_icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\285657_floppy_guardar_save_icon.ico" />
+    <None Include="Resources\48768_delete_folder_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\17374_add_folder_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

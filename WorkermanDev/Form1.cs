@@ -26,10 +26,17 @@ namespace WorkermanDev
         public Form1()
         {
             InitializeComponent();
+
             LogWriter.OnLogWrite += LogWriter_OnLogWrite;
             ExceptionWriter.OnExceptionSaveError += ExceptionWriter_OnExceptionSaveError;
             FileWatch.OnFileChanged += FileWatch_OnFileChanged;
             ConfigFile.Init();
+
+            InitDebounce();
+            numericUpDownDebounce.ValueChanged += numericUpDownDebounce_ValueChanged;
+
+            InitMonitor();
+
             InitMainProcess();
         }
 
@@ -66,12 +73,7 @@ namespace WorkermanDev
 
         void StartButton_Click(object sender, EventArgs e)
         {
-            //Process_init();
-            //BeginMonitorPath("app");
-            //BeginMonitorPath("support");
-            //BeginMonitorPath("process");
-            //BeginMonitorPath("config");
-            //Process_start();
+
         }
         private void StopButton_Click(object sender, EventArgs e)
         {
@@ -93,6 +95,8 @@ namespace WorkermanDev
             }
             if (string.IsNullOrEmpty(errors))
             {
+                textBoxStart.Text = start;
+                textBoxPhp.Text = php;
                 MainProcess.Init(php, start);
             }
             else
@@ -108,9 +112,20 @@ namespace WorkermanDev
 
         private void InitMonitor()
         {
+            string m = ConfigFile.GetValue("monitors");
             
+            if (!string.IsNullOrEmpty(m))
+            {
+                var ms =  m.Split('|');
+                foreach(var s in ms)
+                {
+                    listBoxMonitor.Items.Add(s);
+                    FileWatch.BeginMonitorPath(s);
+                }
+            }
         }
 
+        #region config
         private void InitDebounce()
         {
             string t = ConfigFile.GetValue("debounce");
@@ -123,6 +138,7 @@ namespace WorkermanDev
             {
                 real_time = 2;
             }
+            numericUpDownDebounce.Value = real_time;
             MainProcess.SetDeBounce(real_time);
         }
 
@@ -151,11 +167,12 @@ namespace WorkermanDev
             op.Filter = "php|*.php";
             if (op.ShowDialog() == DialogResult.OK)
             {
-                setPhpPath(op.FileName);
+                setStartPath(op.FileName);
             }
         }
         private void setStartPath(string path)
         {
+            textBoxStart.Text = path;
             ConfigFile.SetValue("start-path", path);
         }
 
@@ -170,7 +187,6 @@ namespace WorkermanDev
                 e.Effect = DragDropEffects.None;
             }
         }
-
         private void textBoxPhp_DragDrop(object sender, DragEventArgs e)
         {
             try
@@ -192,7 +208,6 @@ namespace WorkermanDev
             }
 
         }
-
         private void textBoxStart_DragDrop(object sender, DragEventArgs e)
         {
             try
@@ -220,9 +235,65 @@ namespace WorkermanDev
             MainProcess.SetDeBounce(d);
             ConfigFile.SetValue("debounce", d.ToString());
         }
+        #endregion
 
-        private void toolStripButtonAddMonitor_Click(object sender, EventArgs e)
+        private void TsbAddMonitor_Click(object sender, EventArgs e)
         {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Multiselect = true;
+            op.Title = "Please select files";
+            string start = ConfigFile.GetValue("start-path");
+            if (null != start)
+            {
+                op.InitialDirectory = Path.GetDirectoryName(start);
+            }
+            
+            if (op.ShowDialog() == DialogResult.OK)
+            {
+                AddMonitorPath(op.FileNames);
+            }
+        }
+
+        private void TsbAddMonitorFolders_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fb = new FolderBrowserDialog();
+            fb.ShowNewFolderButton = false;
+            fb.RootFolder = Environment.SpecialFolder.MyComputer;
+            string start = ConfigFile.GetValue("start-path");
+            if (null != start)
+            {
+                fb.SelectedPath = Path.GetDirectoryName(start);
+            }
+            if (fb.ShowDialog() == DialogResult.OK)
+            {
+                AddMonitorPath(new string[] { fb.SelectedPath });
+            }
+        }
+
+        private void AddMonitorPath(string[] filenames)
+        {
+            foreach(var fn in filenames)
+            {
+                if (!listBoxMonitor.Items.Contains(fn) && FileWatch.BeginMonitorPath(fn))
+                {
+                     listBoxMonitor.Items.Add(fn);
+                }
+            }
+            ConfigFile.UpdateWatchersAndFilters();
+        }
+
+        private void TsbDeleteMonitor_Click(object sender, EventArgs e)
+        {
+            var selects = listBoxMonitor.SelectedItems;
+            if (selects.Count == 1)
+            {
+                var s = selects[0];
+                if (FileWatch.TryRemoveMonitorPath(s.ToString()))
+                {
+                    listBoxMonitor.Items.Remove(s);
+                }
+                ConfigFile.UpdateWatchersAndFilters();
+            }
 
         }
     }

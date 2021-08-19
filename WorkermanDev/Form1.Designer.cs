@@ -34,9 +34,17 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonStart = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonStop = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonRestart = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonAbout = new System.Windows.Forms.ToolStripButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.numericUpDownDebounce = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxStart = new System.Windows.Forms.TextBox();
@@ -47,21 +55,16 @@
             this.buttonSelectPhp = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
-            this.listBoxMoniter = new System.Windows.Forms.ListBox();
+            this.listBoxMonitor = new System.Windows.Forms.ListBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDownDebounce = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
+            this.TsbAddMonitor = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.TsbAddMonitorFolders = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.TsbDeleteMonitor = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonStart = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonStop = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonRestart = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonAbout = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonAddMonitor = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonDeleteMonitor = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -69,6 +72,8 @@
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDebounce)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -76,8 +81,6 @@
             this.toolStripContainer2.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer2.SuspendLayout();
             this.toolStrip2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDebounce)).BeginInit();
             this.SuspendLayout();
             // 
             // LogBox
@@ -94,6 +97,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -148,15 +152,48 @@
             this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 0;
             // 
+            // toolStripButtonStart
+            // 
+            this.toolStripButtonStart.Image = global::WorkermanDev.Properties.Resources._60207_start_icon;
+            this.toolStripButtonStart.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonStart.Name = "toolStripButtonStart";
+            this.toolStripButtonStart.Size = new System.Drawing.Size(55, 22);
+            this.toolStripButtonStart.Text = "Start";
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
+            // toolStripButtonStop
+            // 
+            this.toolStripButtonStop.Image = global::WorkermanDev.Properties.Resources._60208_red_stop_icon;
+            this.toolStripButtonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonStop.Name = "toolStripButtonStop";
+            this.toolStripButtonStop.Size = new System.Drawing.Size(55, 22);
+            this.toolStripButtonStop.Text = "Stop";
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonRestart
+            // 
+            this.toolStripButtonRestart.Image = global::WorkermanDev.Properties.Resources._60196_order_icon;
+            this.toolStripButtonRestart.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonRestart.Name = "toolStripButtonRestart";
+            this.toolStripButtonRestart.Size = new System.Drawing.Size(69, 22);
+            this.toolStripButtonRestart.Text = "Restart";
+            // 
+            // toolStripButtonAbout
+            // 
+            this.toolStripButtonAbout.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonAbout.Image = global::WorkermanDev.Properties.Resources._60173_example_icon;
+            this.toolStripButtonAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonAbout.Name = "toolStripButtonAbout";
+            this.toolStripButtonAbout.Size = new System.Drawing.Size(62, 22);
+            this.toolStripButtonAbout.Text = "about";
             // 
             // tabPage2
             // 
@@ -171,6 +208,55 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Config";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.numericUpDownDebounce);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.label3);
+            this.groupBox3.Location = new System.Drawing.Point(6, 256);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(778, 119);
+            this.groupBox3.TabIndex = 3;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Debounce";
+            // 
+            // numericUpDownDebounce
+            // 
+            this.numericUpDownDebounce.Location = new System.Drawing.Point(10, 67);
+            this.numericUpDownDebounce.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownDebounce.Name = "numericUpDownDebounce";
+            this.numericUpDownDebounce.Size = new System.Drawing.Size(120, 35);
+            this.numericUpDownDebounce.TabIndex = 1;
+            this.numericUpDownDebounce.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label4.Location = new System.Drawing.Point(136, 74);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(66, 21);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Second";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label3.Location = new System.Drawing.Point(6, 31);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(501, 21);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Set the restart delay after file changes to avoid frequent triggers";
             // 
             // groupBox2
             // 
@@ -264,7 +350,7 @@
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(792, 424);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Moniter";
+            this.tabPage3.Text = "Monitors";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // toolStripContainer2
@@ -272,7 +358,7 @@
             // 
             // toolStripContainer2.ContentPanel
             // 
-            this.toolStripContainer2.ContentPanel.Controls.Add(this.listBoxMoniter);
+            this.toolStripContainer2.ContentPanel.Controls.Add(this.listBoxMonitor);
             this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(792, 399);
             this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
@@ -285,140 +371,75 @@
             // 
             this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.toolStrip2);
             // 
-            // listBoxMoniter
+            // listBoxMonitor
             // 
-            this.listBoxMoniter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBoxMoniter.FormattingEnabled = true;
-            this.listBoxMoniter.ItemHeight = 12;
-            this.listBoxMoniter.Location = new System.Drawing.Point(0, 0);
-            this.listBoxMoniter.Name = "listBoxMoniter";
-            this.listBoxMoniter.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.listBoxMoniter.Size = new System.Drawing.Size(792, 399);
-            this.listBoxMoniter.TabIndex = 0;
+            this.listBoxMonitor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxMonitor.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.listBoxMonitor.FormattingEnabled = true;
+            this.listBoxMonitor.ItemHeight = 21;
+            this.listBoxMonitor.Location = new System.Drawing.Point(0, 0);
+            this.listBoxMonitor.Name = "listBoxMonitor";
+            this.listBoxMonitor.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.listBoxMonitor.Size = new System.Drawing.Size(792, 399);
+            this.listBoxMonitor.TabIndex = 0;
             // 
             // toolStrip2
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonAddMonitor,
+            this.TsbAddMonitor,
+            this.toolStripSeparator5,
+            this.TsbAddMonitorFolders,
             this.toolStripSeparator3,
-            this.toolStripButtonDeleteMonitor,
+            this.TsbDeleteMonitor,
             this.toolStripSeparator4,
             this.toolStripLabel1});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(423, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(526, 25);
             this.toolStrip2.TabIndex = 0;
             // 
-            // groupBox3
+            // TsbAddMonitor
             // 
-            this.groupBox3.Controls.Add(this.numericUpDownDebounce);
-            this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Location = new System.Drawing.Point(6, 256);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(778, 119);
-            this.groupBox3.TabIndex = 3;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Debounce";
+            this.TsbAddMonitor.Image = global::WorkermanDev.Properties.Resources._48761_file_add_upload_icon;
+            this.TsbAddMonitor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.TsbAddMonitor.Name = "TsbAddMonitor";
+            this.TsbAddMonitor.Size = new System.Drawing.Size(81, 22);
+            this.TsbAddMonitor.Text = "Add Files";
+            this.TsbAddMonitor.Click += new System.EventHandler(this.TsbAddMonitor_Click);
             // 
-            // label3
+            // toolStripSeparator5
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(6, 31);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(501, 21);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Set the restart delay after file changes to avoid frequent triggers";
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
-            // numericUpDownDebounce
+            // TsbAddMonitorFolders
             // 
-            this.numericUpDownDebounce.Location = new System.Drawing.Point(10, 67);
-            this.numericUpDownDebounce.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownDebounce.Name = "numericUpDownDebounce";
-            this.numericUpDownDebounce.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDownDebounce.TabIndex = 1;
-            this.numericUpDownDebounce.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.numericUpDownDebounce.ValueChanged += new System.EventHandler(this.numericUpDownDebounce_ValueChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(136, 74);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(66, 21);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Second";
+            this.TsbAddMonitorFolders.Image = global::WorkermanDev.Properties.Resources._17374_add_folder_icon;
+            this.TsbAddMonitorFolders.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.TsbAddMonitorFolders.Name = "TsbAddMonitorFolders";
+            this.TsbAddMonitorFolders.Size = new System.Drawing.Size(99, 22);
+            this.TsbAddMonitorFolders.Text = "Add Folders";
+            this.TsbAddMonitorFolders.Click += new System.EventHandler(this.TsbAddMonitorFolders_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
+            // TsbDeleteMonitor
+            // 
+            this.TsbDeleteMonitor.Image = global::WorkermanDev.Properties.Resources._48768_delete_folder_icon;
+            this.TsbDeleteMonitor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.TsbDeleteMonitor.Name = "TsbDeleteMonitor";
+            this.TsbDeleteMonitor.Size = new System.Drawing.Size(65, 22);
+            this.TsbDeleteMonitor.Text = "Delete";
+            this.TsbDeleteMonitor.Click += new System.EventHandler(this.TsbDeleteMonitor_Click);
+            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButtonStart
-            // 
-            this.toolStripButtonStart.Image = global::WorkermanDev.Properties.Resources._60207_start_icon;
-            this.toolStripButtonStart.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonStart.Name = "toolStripButtonStart";
-            this.toolStripButtonStart.Size = new System.Drawing.Size(55, 22);
-            this.toolStripButtonStart.Text = "Start";
-            // 
-            // toolStripButtonStop
-            // 
-            this.toolStripButtonStop.Image = global::WorkermanDev.Properties.Resources._60208_red_stop_icon;
-            this.toolStripButtonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonStop.Name = "toolStripButtonStop";
-            this.toolStripButtonStop.Size = new System.Drawing.Size(55, 22);
-            this.toolStripButtonStop.Text = "Stop";
-            // 
-            // toolStripButtonRestart
-            // 
-            this.toolStripButtonRestart.Image = global::WorkermanDev.Properties.Resources._60196_order_icon;
-            this.toolStripButtonRestart.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonRestart.Name = "toolStripButtonRestart";
-            this.toolStripButtonRestart.Size = new System.Drawing.Size(69, 22);
-            this.toolStripButtonRestart.Text = "Restart";
-            // 
-            // toolStripButtonAbout
-            // 
-            this.toolStripButtonAbout.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButtonAbout.Image = global::WorkermanDev.Properties.Resources._60173_example_icon;
-            this.toolStripButtonAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonAbout.Name = "toolStripButtonAbout";
-            this.toolStripButtonAbout.Size = new System.Drawing.Size(62, 22);
-            this.toolStripButtonAbout.Text = "about";
-            // 
-            // toolStripButtonAddMonitor
-            // 
-            this.toolStripButtonAddMonitor.Image = global::WorkermanDev.Properties.Resources._48761_file_add_upload_icon;
-            this.toolStripButtonAddMonitor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonAddMonitor.Name = "toolStripButtonAddMonitor";
-            this.toolStripButtonAddMonitor.Size = new System.Drawing.Size(52, 22);
-            this.toolStripButtonAddMonitor.Text = "Add";
-            this.toolStripButtonAddMonitor.Click += new System.EventHandler(this.toolStripButtonAddMonitor_Click);
-            // 
-            // toolStripButtonDeleteMonitor
-            // 
-            this.toolStripButtonDeleteMonitor.Image = global::WorkermanDev.Properties.Resources._48762_remove_delete_delete_file_icon;
-            this.toolStripButtonDeleteMonitor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonDeleteMonitor.Name = "toolStripButtonDeleteMonitor";
-            this.toolStripButtonDeleteMonitor.Size = new System.Drawing.Size(65, 22);
-            this.toolStripButtonDeleteMonitor.Text = "Delete";
             // 
             // toolStripLabel1
             // 
@@ -426,6 +447,15 @@
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(251, 22);
             this.toolStripLabel1.Text = "The operation will take effect immediately";
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(792, 424);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Filters";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -446,6 +476,9 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDebounce)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -458,9 +491,6 @@
             this.toolStripContainer2.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDebounce)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -481,7 +511,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.ToolStripContainer toolStripContainer2;
         private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.ListBox listBoxMoniter;
+        private System.Windows.Forms.ListBox listBoxMonitor;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxPhp;
@@ -494,11 +524,14 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown numericUpDownDebounce;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ToolStripButton toolStripButtonAddMonitor;
+        private System.Windows.Forms.ToolStripButton TsbAddMonitor;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton toolStripButtonDeleteMonitor;
+        private System.Windows.Forms.ToolStripButton TsbDeleteMonitor;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton TsbAddMonitorFolders;
+        private System.Windows.Forms.TabPage tabPage4;
     }
 }
 

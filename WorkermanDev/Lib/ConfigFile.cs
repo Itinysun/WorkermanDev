@@ -60,7 +60,20 @@ namespace WorkermanDev.Lib
             {
                 OnConfigFileError.Invoke("Can not save your configs ,the change will be lost.", e);
             }
-            
+        }
+        static DebounceDispatcher debounceDispatcher = new DebounceDispatcher(2000);
+        public static void UpdateWatchersAndFilters()
+        {
+            debounceDispatcher.Debounce(() =>
+            {
+                List<string> ws = new List<string>();
+                foreach(var w in FileWatch.watchers)
+                {
+                    ws.Add(w.Key);
+                }
+                SetValue("monitors", String.Join("|", ws));
+                SetValue("filters", String.Join("|", FileWatch.filters));
+            });
         }
     }
 }

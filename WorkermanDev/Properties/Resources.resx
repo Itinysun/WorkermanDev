@@ -121,8 +121,11 @@
   <data name="60196_order_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\60196_order_icon.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="48762_remove_delete_delete file_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\48762_remove_delete_delete file_icon.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="60207_start_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\60207_start_icon.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="48768_delete_folder_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\48768_delete_folder_icon.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="60208_red_stop_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\60208_red_stop_icon.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -133,10 +136,7 @@
   <data name="48761_file_add_upload_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\48761_file_add_upload_icon.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="60207_start_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\60207_start_icon.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="285657_floppy_guardar_save_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\285657_floppy_guardar_save_icon.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="17374_add_folder_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\17374_add_folder_icon.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

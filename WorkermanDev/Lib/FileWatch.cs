@@ -7,14 +7,16 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using WorkermanDev.Event;
+using System.Collections.Concurrent;
 
 namespace WorkermanDev.Lib
 {
     class FileWatch
     {
 
-        private static List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
-        private static List<string> filter = new List<string>();
+        public static ConcurrentDictionary<string,FileSystemWatcher> watchers = new ConcurrentDictionary<string,FileSystemWatcher>();
+
+        public static List<string> filters = new List<string>();
 
         public static event FileWatchEvent.FileChangeHandle OnFileChanged;
         public static event FileWatchEvent.FileWatchSuccessDelegate OnFileWatchSuccess;
@@ -22,48 +24,86 @@ namespace WorkermanDev.Lib
         public static event LogEvent.ErrorLogHandle OnError;
        
 
-        public  static void BeginMonitorPath(string path)
+        public static bool BeginMonitorPath(string path)
         {
-            if (Directory.Exists(path))
+            if (watchers.ContainsKey(path))
+                return true;
+
+            FileSystemWatcher fs = new FileSystemWatcher();
+            if (File.Exists(path))
             {
-                FileSystemWatcher fs = new FileSystemWatcher(path);
+                fs.Path = Path.GetDirectoryName(path);
+                fs.Filter = Path.GetFileName(path);
+                fs.IncludeSubdirectories = false;
+            }
+            else if (Directory.Exists(path))
+            {
+                fs.Path = path;
+                fs.IncludeSubdirectories = true;
+            }
+            else
+            {
+                OnFileWatchFaild?.Invoke("path not exisit : " + path);
+                return false;
+            }
+
+            if (watchers.TryAdd(path, fs))
+            {
                 fs.Changed += FileChanged;
                 fs.Renamed += FileChanged;
                 fs.Deleted += FileChanged;
                 fs.Created += FileChanged;
                 fs.Error += Fs_Error;
                 fs.NotifyFilter = NotifyFilters.Attributes
-                                 | NotifyFilters.CreationTime
-                                 | NotifyFilters.DirectoryName
-                                 | NotifyFilters.FileName
-                                 | NotifyFilters.LastWrite
-                                 | NotifyFilters.Security
-                                 | NotifyFilters.Size;
-                fs.IncludeSubdirectories = true;
-                fs.EnableRaisingEvents = true;
+                                    | NotifyFilters.CreationTime
+                                    | NotifyFilters.DirectoryName
+                                    | NotifyFilters.FileName
+                                    | NotifyFilters.LastWrite
+                                    | NotifyFilters.Security
+                                    | NotifyFilters.Size;
+
                 OnFileWatchSuccess?.Invoke(path);
+                return true;
             }
             else
             {
-                OnFileWatchFaild?.Invoke("path not exisit : "+ path);
+                fs.Dispose();
+                return false;
             }
         }
+
+        public static bool TryRemoveMonitorPath(string path)
+        {
+            if (watchers.IsEmpty || !watchers.ContainsKey(path))
+                return true;
+            FileSystemWatcher w;
+            if (watchers.TryRemove(path,out w))
+            {
+                w.EnableRaisingEvents = false;
+                w.Dispose();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
         private static void Fs_Error(object sender, ErrorEventArgs e)
         {
             OnError?.Invoke("Error found with FileWatch : ",e.GetException());
         }
-        public static void SetFilter(List<string> f)
-        {
-            filter = f;
-        }
+
+
+
         private static void FileChanged(object sender, FileSystemEventArgs e)
         {
             var fi = new FileInfo(e.FullPath);
-            if (filter.Count != 0)
+            if (filters.Count != 0)
             {
                 var ext = fi.Extension.ToLower();
-                if (!filter.Contains(ext))
+                if (!filters.Contains(ext))
                     return;
             }
             OnFileChanged?.Invoke(fi);

@@ -88,7 +88,6 @@ namespace WorkermanDev.Lib
             }
         }
 
-
         public static void Init(string php,string start)
         {
             startInfo.FileName = php;
@@ -100,6 +99,7 @@ namespace WorkermanDev.Lib
             startInfo.CreateNoWindow = true;
             //startInfo.Verb = "RunAs";
         }
+
         private static void Process_DataReceived(object sender, DataReceivedEventArgs e)
         {
             if (e.Data != null)

@@ -63,9 +63,9 @@ namespace WorkermanDev.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap _285657_floppy_guardar_save_icon {
+        internal static System.Drawing.Bitmap _17374_add_folder_icon {
             get {
-                object obj = ResourceManager.GetObject("285657_floppy_guardar_save_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("17374_add_folder_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace WorkermanDev.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap _48762_remove_delete_delete_file_icon {
+        internal static System.Drawing.Bitmap _48768_delete_folder_icon {
             get {
-                object obj = ResourceManager.GetObject("48762_remove_delete_delete file_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("48768_delete_folder_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
