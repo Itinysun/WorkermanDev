@@ -16,7 +16,8 @@ namespace WorkermanDev.Lib
 
         public static ConcurrentDictionary<string,FileSystemWatcher> watchers = new ConcurrentDictionary<string,FileSystemWatcher>();
 
-        public static List<string> filters = new List<string>();
+        public static string[] filters=null;
+        public static bool filterEnabled = false;
 
         public static event FileWatchEvent.FileChangeHandle OnFileChanged;
         public static event FileWatchEvent.FileWatchSuccessDelegate OnFileWatchSuccess;
@@ -100,7 +101,7 @@ namespace WorkermanDev.Lib
         private static void FileChanged(object sender, FileSystemEventArgs e)
         {
             var fi = new FileInfo(e.FullPath);
-            if (filters.Count != 0)
+            if (filterEnabled && null!=filters)
             {
                 var ext = fi.Extension.ToLower();
                 if (!filters.Contains(ext))

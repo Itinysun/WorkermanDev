@@ -18,26 +18,82 @@ namespace WorkermanDev
 
     public partial class Form1 : Form
     {
-
-
-
-
+        private static bool taskEnable = false;
+        private delegate void SwitchProcessStateHandel(bool enabled);
 
         public Form1()
         {
             InitializeComponent();
 
             LogWriter.OnLogWrite += LogWriter_OnLogWrite;
+
             ExceptionWriter.OnExceptionSaveError += ExceptionWriter_OnExceptionSaveError;
-            FileWatch.OnFileChanged += FileWatch_OnFileChanged;
+
+            LogWriter.BeginProcessEvent();
+
             ConfigFile.Init();
+
+
+
+            FileWatch.OnFileChanged += FileWatch_OnFileChanged;
+
+
 
             InitDebounce();
             numericUpDownDebounce.ValueChanged += numericUpDownDebounce_ValueChanged;
 
             InitMonitor();
 
+            InitFilter();
+
             InitMainProcess();
+
+            MainProcess.OnProcessStart += MainProcess_OnProcessStart;
+            MainProcess.OnProcessEnd += MainProcess_OnProcessEnd;
+        }
+
+
+        private void TbStart_Click(object sender, EventArgs e)
+        {
+            MainProcess.Start();
+        }
+
+        private void TbStop_Click(object sender, EventArgs e)
+        {
+            MainProcess.Stop();
+        }
+
+
+        private void MainProcess_OnProcessEnd(Process p)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new SwitchProcessStateHandel(SwitchProcessState), false);
+            }
+            else
+            {
+                SwitchProcessState(false);
+            }
+        }
+
+        private void MainProcess_OnProcessStart(Process p)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new SwitchProcessStateHandel(SwitchProcessState), true);
+            }
+            else
+            {
+                SwitchProcessState(true);
+            }
+        }
+
+        private void SwitchProcessState(bool enabled)
+        {
+            TbStart.Enabled = !enabled;
+            TbRestart.Enabled= enabled;
+            TbStop.Enabled = enabled;
+            taskEnable = enabled;
         }
 
         private void ExceptionWriter_OnExceptionSaveError(string content)
@@ -47,41 +103,21 @@ namespace WorkermanDev
 
         private void FileWatch_OnFileChanged(FileInfo fi)
         {
-            
-        }
-
-        private void LogWriter_OnLogWrite(LogEvent.LogWriteEventArgs e)
-        {
-            if (LogBox.InvokeRequired)
+            if (taskEnable)
             {
-                this.Invoke(new LogEvent.LogHandle(WriteToRichText), e);
-            }
-            else
-            {
-                WriteToRichText(e);
+                MainProcess.Restart();
             }
         }
-        private void WriteToRichText(LogEvent.LogWriteEventArgs e)
-        {
-            if (e.cleanScreen)
-            {
-                LogBox.Clear();
-            }
-            LogBox.SelectionColor = e.color;
-            LogBox.AppendText(DateTime.Now.ToString("[hh:mm:ss] ")+ e.content + Environment.NewLine);
-        }
 
-        void StartButton_Click(object sender, EventArgs e)
-        {
 
-        }
-        private void StopButton_Click(object sender, EventArgs e)
-        {
 
-        }
+
+
+
 
         private void InitMainProcess()
         {
+            MainProcess.Clear();
             var errors = "";
             string php = ConfigFile.GetValue("php-path");
             if (string.IsNullOrEmpty(php))
@@ -107,6 +143,22 @@ namespace WorkermanDev
 
         private void InitFilter()
         {
+            string filters = ConfigFile.GetValue("filters");
+            string filters_enable = ConfigFile.GetValue("filters-enable");
+            if (!string.IsNullOrEmpty(filters))
+            {
+                FileWatch.filters = filters.Split('|');
+                TbFilter.Text = filters;
+            }
+            if (!string.IsNullOrEmpty(filters_enable) || filters_enable=="1")
+            {
+                FileWatch.filterEnabled = true;
+            }
+            else
+            {
+                FileWatch.filterEnabled = false;
+            }
+            CbFilter.Checked = FileWatch.filterEnabled;
 
         }
 
@@ -124,6 +176,35 @@ namespace WorkermanDev
                 }
             }
         }
+
+        #region logBox
+        private void LogWriter_OnLogWrite(LogEvent.LogWriteEventArgs e)
+        {
+            if (LogBox.InvokeRequired)
+            {
+                this.Invoke(new LogEvent.LogHandle(WriteToRichText), e);
+            }
+            else
+            {
+                WriteToRichText(e);
+            }
+        }
+
+        private void WriteToRichText(LogEvent.LogWriteEventArgs e)
+        {
+            if (e.cleanScreen)
+            {
+                LogBox.Clear();
+            }
+            LogBox.SelectionColor = e.color;
+            LogBox.AppendText(DateTime.Now.ToString("[hh:mm:ss] ") + e.content + Environment.NewLine);
+        }
+
+        private void LogBox_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            Process.Start(e.LinkText);
+        }
+        #endregion
 
         #region config
         private void InitDebounce()
@@ -157,6 +238,7 @@ namespace WorkermanDev
         {
             textBoxPhp.Text = path;
             ConfigFile.SetValue("php-path", path);
+            InitMainProcess();
         }
 
         private void buttonStartpath_Click(object sender, EventArgs e)
@@ -174,6 +256,7 @@ namespace WorkermanDev
         {
             textBoxStart.Text = path;
             ConfigFile.SetValue("start-path", path);
+            InitMainProcess();
         }
 
         private void File_DragDrop(object sender, DragEventArgs e)
@@ -237,6 +320,7 @@ namespace WorkermanDev
         }
         #endregion
 
+        #region monitors
         private void TsbAddMonitor_Click(object sender, EventArgs e)
         {
             OpenFileDialog op = new OpenFileDialog();
@@ -295,6 +379,40 @@ namespace WorkermanDev
                 ConfigFile.UpdateWatchersAndFilters();
             }
 
+        }
+
+        private void CbFilter_CheckStateChanged(object sender, EventArgs e)
+        {
+            TbFilter.Enabled = CbFilter.Checked;
+            BtConfirmFilter.Enabled = CbFilter.Checked;
+            ConfigFile.UpdateWatchersAndFilters();
+        }
+
+        #endregion
+
+        #region filters
+
+        private void BtConfirmFilter_Click(object sender, EventArgs e)
+        {
+            FileWatch.filters = TbFilter.Text.Split('|');
+            ConfigFile.UpdateWatchersAndFilters();
+        }
+
+        private void TbRestart_Click(object sender, EventArgs e)
+        {
+            TbStart.Enabled = false;
+            TbStop.Enabled = false;
+            TbRestart.Enabled = false;
+            MainProcess.Restart();
+        }
+
+        #endregion
+
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            MainProcess.OnProcessEnd -= MainProcess_OnProcessEnd;
+            MainProcess.Stop();
         }
     }
 }

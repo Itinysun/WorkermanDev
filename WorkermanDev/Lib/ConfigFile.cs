@@ -20,6 +20,7 @@ namespace WorkermanDev.Lib
 
         public static event LogEvent.ErrorLogHandle OnConfigFileError;
         public static event LogEvent.CommonLogHandle OnConfigFileWarn;
+        public static event LogEvent.CommonLogHandle OnConfigFileSuccess;
 
         public static void Init()
         {
@@ -51,20 +52,29 @@ namespace WorkermanDev.Lib
             Save();
         }
 
+        static DebounceDispatcher debounceSave = new DebounceDispatcher(2000);
+
         static void Save()
         {
             try
             {
-                parser.WriteFile(path, data);
-            }catch(Exception e)
+                debounceSave.Debounce(() =>
+                {
+                    parser.WriteFile(path, data);
+                    OnConfigFileSuccess?.Invoke("Config update successful!");
+                });
+
+            }
+            catch(Exception e)
             {
                 OnConfigFileError.Invoke("Can not save your configs ,the change will be lost.", e);
             }
         }
-        static DebounceDispatcher debounceDispatcher = new DebounceDispatcher(2000);
+
+        static DebounceDispatcher debounceUpdate = new DebounceDispatcher(2000);
         public static void UpdateWatchersAndFilters()
         {
-            debounceDispatcher.Debounce(() =>
+            debounceUpdate.Debounce(() =>
             {
                 List<string> ws = new List<string>();
                 foreach(var w in FileWatch.watchers)
@@ -72,7 +82,11 @@ namespace WorkermanDev.Lib
                     ws.Add(w.Key);
                 }
                 SetValue("monitors", String.Join("|", ws));
-                SetValue("filters", String.Join("|", FileWatch.filters));
+
+                SetValue("filters-enable", FileWatch.filterEnabled ? "1" : "0");
+
+                if (null != FileWatch.filters)
+                    SetValue("filters", String.Join("|", FileWatch.filters));
             });
         }
     }

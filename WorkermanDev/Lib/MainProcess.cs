@@ -7,14 +7,20 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using WorkermanDev.Event;
+using System.Runtime.InteropServices;
 
 namespace WorkermanDev.Lib
 {
     class MainProcess
     {
-        static Process mainProcess;
+        static Process processHandle;
         static ProcessStartInfo startInfo = new ProcessStartInfo();
         static DebounceDispatcher debounceDispatcher = new DebounceDispatcher(2000);
+        static string[] hideErrors = new string[] {
+            "'nproc' is not recognized as an internal or external command,",
+            "operable program or batch file."
+        };
+
 
 
         public static event ProcessEvent.ProcessOutputHandle OnReadStdOutput;
@@ -43,20 +49,19 @@ namespace WorkermanDev.Lib
         {
             try
             {
-                mainProcess = new Process
+                processHandle = new Process
                 {
-                    StartInfo = startInfo
+                    StartInfo = startInfo,
                 };
+                processHandle.OutputDataReceived += new DataReceivedEventHandler(Process_DataReceived);
+                processHandle.ErrorDataReceived += new DataReceivedEventHandler(Process_ErrorReceived);
+                processHandle.Exited += new EventHandler(Process_Exited);
+                processHandle.EnableRaisingEvents = true;
 
-                mainProcess.OutputDataReceived += new DataReceivedEventHandler(Process_DataReceived);
-                mainProcess.ErrorDataReceived += new DataReceivedEventHandler(Process_ErrorReceived);
-                mainProcess.Exited += new EventHandler(Process_Exited);
-                mainProcess.EnableRaisingEvents = true;
-
-                mainProcess.Start();
-                mainProcess.BeginOutputReadLine();
-                mainProcess.BeginErrorReadLine();
-                OnProcessStart?.Invoke(mainProcess);
+                processHandle.Start();
+                processHandle.BeginOutputReadLine();
+                processHandle.BeginErrorReadLine();
+                processHandle.WaitForInputIdle();
             }catch(Exception e)
             {
                 OnProcessError?.Invoke("Try start main process but failde !", e);
@@ -65,15 +70,14 @@ namespace WorkermanDev.Lib
 
         public static void Stop()
         {
-            mainProcess.Kill();
-            mainProcess.WaitForExit();
-            mainProcess.Dispose();
+            if (processHandle == null || processHandle.HasExited)
+                return;
+            processHandle.Kill();
+            processHandle.WaitForExit(1000);
         }
 
         public static void Restart()
         {
-            if (mainProcess.HasExited)
-                return;
             try
             {
                 debounceDispatcher.Debounce(() =>
@@ -85,6 +89,18 @@ namespace WorkermanDev.Lib
             catch (Exception e)
             {
                 OnProcessError?.Invoke("Try to Restart process faild :" , e);
+            }
+        }
+
+        public static void Clear()
+        {
+           var ps = Process.GetProcessesByName("php");
+            foreach(var p in ps)
+            {
+                if (p.MainWindowTitle.Equals("WorkermanDev-Instance"))
+                {
+                    p.Dispose();
+                }
             }
         }
 
@@ -110,7 +126,7 @@ namespace WorkermanDev.Lib
 
         private static void Process_ErrorReceived(object sender, DataReceivedEventArgs e)
         {
-            if (e.Data != null)
+            if (e.Data != null && !hideErrors.Contains(e.Data))
             {
                 OnProcessError?.Invoke("Error on receive data from main process",new Exception(e.Data));
             }
@@ -118,7 +134,7 @@ namespace WorkermanDev.Lib
 
         private static void Process_Exited(object sender, EventArgs e)
         {
-            OnProcessEnd?.Invoke(mainProcess);
+            OnProcessEnd?.Invoke(processHandle);
         }
 
 
