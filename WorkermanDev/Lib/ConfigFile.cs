@@ -29,7 +29,7 @@ namespace WorkermanDev.Lib
             {
                 if (!File.Exists(path))
                 {
-                    File.Create(path);
+                    parser.WriteFile(path, new IniData());
                     OnConfigFileWarn?.Invoke("your config file are not found and an empty one has been created!");
                 }
                 data = parser.ReadFile(path);
@@ -42,6 +42,8 @@ namespace WorkermanDev.Lib
 
         public static string GetValue(string key, string section = "main")
         {
+            if (null == data)
+                return null;
             string ret= data[section][key];
             return ret;
         }
@@ -52,7 +54,7 @@ namespace WorkermanDev.Lib
             Save();
         }
 
-        static DebounceDispatcher debounceSave = new DebounceDispatcher(2000);
+        static readonly DebounceDispatcher debounceSave = new DebounceDispatcher(2000);
 
         static void Save()
         {

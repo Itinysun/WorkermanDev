@@ -186,8 +186,11 @@ namespace WorkermanDev
             {
                 LogBox.Clear();
             }
+            LogBox.Select(LogBox.TextLength, 0);
             LogBox.SelectionColor = e.color;
             LogBox.AppendText(DateTime.Now.ToString("[hh:mm:ss] ") + e.content + Environment.NewLine);
+            LogBox.Select(LogBox.TextLength, 0);
+            LogBox.ScrollToCaret();
         }
 
         private void LogBox_LinkClicked(object sender, LinkClickedEventArgs e)

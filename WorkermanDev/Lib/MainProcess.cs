@@ -61,7 +61,6 @@ namespace WorkermanDev.Lib
                 processHandle.Start();
                 processHandle.BeginOutputReadLine();
                 processHandle.BeginErrorReadLine();
-                processHandle.WaitForInputIdle();
             }catch(Exception e)
             {
                 OnProcessError?.Invoke("Try start main process but failde !", e);

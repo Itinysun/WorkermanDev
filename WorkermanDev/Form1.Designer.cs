@@ -94,6 +94,7 @@
             this.LogBox.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LogBox.Location = new System.Drawing.Point(0, 0);
             this.LogBox.Name = "LogBox";
+            this.LogBox.ReadOnly = true;
             this.LogBox.Size = new System.Drawing.Size(786, 470);
             this.LogBox.TabIndex = 1;
             this.LogBox.Text = "";
@@ -144,7 +145,7 @@
             // 
             // TsHome
             // 
-            this.TsHome.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TsHome.Dock = System.Windows.Forms.DockStyle.None;
             this.TsHome.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.TsHome.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TbStart,
@@ -464,7 +465,7 @@
             // 
             // TsMonitors
             // 
-            this.TsMonitors.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TsMonitors.Dock = System.Windows.Forms.DockStyle.None;
             this.TsMonitors.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.TsMonitors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TsbAddMonitor,
