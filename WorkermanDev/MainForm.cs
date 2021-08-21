@@ -16,12 +16,12 @@ namespace WorkermanDev
 
 
 
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private static bool taskEnable = false;
         private delegate void SwitchProcessStateHandel(bool enabled);
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
