@@ -46,6 +46,7 @@ namespace WorkermanDev
 
             MainProcess.OnProcessStart += MainProcess_OnProcessStart;
             MainProcess.OnProcessEnd += MainProcess_OnProcessEnd;
+            MainProcess.Clear();
         }
 
 
@@ -107,7 +108,6 @@ namespace WorkermanDev
 
         private void InitMainProcess()
         {
-            MainProcess.Clear();
             var errors = "";
             string php = ConfigFile.GetValue("php-path");
             if (string.IsNullOrEmpty(php))

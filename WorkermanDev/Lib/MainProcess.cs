@@ -61,6 +61,11 @@ namespace WorkermanDev.Lib
                 processHandle.Start();
                 processHandle.BeginOutputReadLine();
                 processHandle.BeginErrorReadLine();
+
+                OnProcessStart?.Invoke(processHandle);
+
+                SeedIdFile();
+
             }catch(Exception e)
             {
                 OnProcessError?.Invoke("Try start main process but failde !", e);
@@ -72,7 +77,7 @@ namespace WorkermanDev.Lib
             if (processHandle == null || processHandle.HasExited)
                 return;
             processHandle.Kill();
-            processHandle.WaitForExit(1000);
+            processHandle.WaitForExit(5000);
         }
 
         public static void Restart()
@@ -90,17 +95,59 @@ namespace WorkermanDev.Lib
                 OnProcessError?.Invoke("Try to Restart process faild :" , e);
             }
         }
+        private static void SeedIdFile()
+        {
+            try
+            {
+                if (processHandle != null && !processHandle.HasExited)
+                {
+                    string id = processHandle.Id.ToString();
+                    if (!string.IsNullOrEmpty(id))
+                    {
+                        File.WriteAllText("pid", id);
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+        }
 
         public static void Clear()
         {
-           var ps = Process.GetProcessesByName("php");
-            foreach(var p in ps)
+            if (!File.Exists("pid"))
+                return;
+            int id = 0;
+            try
             {
-                if (p.MainWindowTitle.Equals("WorkermanDev-Instance"))
+               var sid = File.ReadAllText("pid");
+                if (!string.IsNullOrEmpty(sid))
                 {
-                    p.Dispose();
+                    id = int.Parse(sid);
                 }
             }
+            catch
+            {
+
+            }
+            if (id > 0)
+            {
+                try
+                {
+                    var ps = Process.GetProcessById(id);
+                    if (null != ps)
+                    {
+                        ps.Kill();
+                    }
+                }
+                catch
+                {
+
+                }
+
+            }
+
         }
 
         public static void Init(string php,string start)
