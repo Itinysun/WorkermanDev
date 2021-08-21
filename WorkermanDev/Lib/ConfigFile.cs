@@ -56,6 +56,8 @@ namespace WorkermanDev.Lib
 
         static void Save()
         {
+            if (null == data)
+                return;
             try
             {
                 debounceSave.Debounce(() =>

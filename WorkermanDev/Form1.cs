@@ -33,11 +33,7 @@ namespace WorkermanDev
 
             ConfigFile.Init();
 
-
-
             FileWatch.OnFileChanged += FileWatch_OnFileChanged;
-
-
 
             InitDebounce();
             numericUpDownDebounce.ValueChanged += numericUpDownDebounce_ValueChanged;
@@ -108,12 +104,6 @@ namespace WorkermanDev
                 MainProcess.Restart();
             }
         }
-
-
-
-
-
-
 
         private void InitMainProcess()
         {
