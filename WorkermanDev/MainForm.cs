@@ -407,5 +407,10 @@ namespace WorkermanDev
             MainProcess.OnProcessEnd -= MainProcess_OnProcessEnd;
             MainProcess.Stop();
         }
+
+        private void toolStripButtonAbout_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/Itinysun/WorkermanDev");
+        }
     }
 }

@@ -208,6 +208,7 @@
             this.toolStripButtonAbout.Name = "toolStripButtonAbout";
             this.toolStripButtonAbout.Size = new System.Drawing.Size(62, 22);
             this.toolStripButtonAbout.Text = "about";
+            this.toolStripButtonAbout.Click += new System.EventHandler(this.toolStripButtonAbout_Click);
             // 
             // tabPage2
             // 
@@ -529,14 +530,14 @@
             this.toolStripLabel1.Size = new System.Drawing.Size(251, 22);
             this.toolStripLabel1.Text = "The operation will take effect immediately";
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 535);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WorkmanDev";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);

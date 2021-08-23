@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IniParser;
-using IniParser.Model;
-using WorkermanDev.Event;
-using System.Drawing;
 using System.IO;
+using WorkermanDev.Event;
 
 namespace WorkermanDev.Lib
 {
     class ConfigFile
     {
 
-        static FileIniDataParser parser;
-        static IniData data;
+        static IniFile parser;
         static readonly string path = "Config.ini";
 
         public static event LogEvent.ErrorLogHandle OnConfigFileError;
@@ -24,15 +17,15 @@ namespace WorkermanDev.Lib
 
         public static void Init()
         {
-            parser = new FileIniDataParser();
+            parser = new IniFile();
             try
             {
                 if (!File.Exists(path))
                 {
-                    parser.WriteFile(path, new IniData());
+                    parser.Save(path);
                     OnConfigFileWarn?.Invoke("your config file are not found and an empty one has been created!");
                 }
-                data = parser.ReadFile(path);
+                parser.Load(path);
             }catch(Exception e)
             {
                 OnConfigFileError?.Invoke("Can not read config file, please fix the problem and restart, error:" , e);
@@ -42,15 +35,12 @@ namespace WorkermanDev.Lib
 
         public static string GetValue(string key, string section = "main")
         {
-            if (null == data)
-                return null;
-            string ret= data[section][key];
-            return ret;
+            return parser[section][key].GetString();
         }
 
         public static void SetValue(string key, string v, string section = "main")
         {
-            data[section][key] = v;
+            parser[section][key] = v;
             Save();
         }
 
@@ -58,13 +48,11 @@ namespace WorkermanDev.Lib
 
         static void Save()
         {
-            if (null == data)
-                return;
             try
             {
                 debounceSave.Debounce(() =>
                 {
-                    parser.WriteFile(path, data);
+                    parser.Save(path);
                     OnConfigFileSuccess?.Invoke("Config update successful!");
                 });
 
