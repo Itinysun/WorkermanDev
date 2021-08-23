@@ -62,6 +62,7 @@ namespace WorkermanDev.Lib
                                     | NotifyFilters.LastWrite
                                     | NotifyFilters.Security
                                     | NotifyFilters.Size;
+                fs.EnableRaisingEvents = true;
 
                 OnFileWatchSuccess?.Invoke(path);
                 return true;
