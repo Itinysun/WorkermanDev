@@ -100,6 +100,7 @@ namespace WorkermanDev
 
         private void FileWatch_OnFileChanged(FileInfo fi)
         {
+            LogWriter.WriteCommonLog(fi.FullName);
             if (taskEnable)
             {
                 MainProcess.Restart();
@@ -114,16 +115,29 @@ namespace WorkermanDev
             {
                 errors += " [php path] ";
             }
+            string ini = ConfigFile.GetValue("php-ini");
+            if (string.IsNullOrEmpty(php))
+            {
+                errors += " [php ini] ";
+            }
             string start = ConfigFile.GetValue("start-path");
             if (string.IsNullOrEmpty(start))
             {
                 errors += " [start path] ";
             }
+            string param = ConfigFile.GetValue("start-params");
+            if (string.IsNullOrEmpty(start))
+            {
+                errors += " [start param] ";
+            }
             if (string.IsNullOrEmpty(errors))
             {
                 textBoxStart.Text = start;
                 textBoxPhp.Text = php;
-                MainProcess.Init(php, start);
+                textBoxIni.Text = ini;
+                textBoxParams.Text = param;
+                
+                MainProcess.Init(php, start,ini,param);
             }
             else
             {
@@ -227,6 +241,17 @@ namespace WorkermanDev
                 setPhpPath(op.FileName);
             }
         }
+        private void buttonSelectIni_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Multiselect = false;
+            op.Title = "Please select php.ini for workerman runtime";
+            op.Filter = "ini|*.ini";
+            if (op.ShowDialog() == DialogResult.OK)
+            {
+                setIniPath(op.FileName);
+            }
+        }
         private void setPhpPath(string path)
         {
             textBoxPhp.Text = path;
@@ -234,24 +259,39 @@ namespace WorkermanDev
             InitMainProcess();
         }
 
+        private void setIniPath(string path)
+        {
+            textBoxIni.Text = path;
+            ConfigFile.SetValue("php-ini", path);
+            InitMainProcess();
+        }
+
+
         private void buttonStartpath_Click(object sender, EventArgs e)
         {
             OpenFileDialog op = new OpenFileDialog();
             op.Multiselect = false;
             op.Title = "Please select bootstap file";
-            op.Filter = "php|*.php";
+            //op.Filter = "php|*.php";
             if (op.ShowDialog() == DialogResult.OK)
             {
                 setStartPath(op.FileName);
             }
         }
+        private void buttonSaveParams_Click(object sender, EventArgs e)
+        {
+
+            ConfigFile.SetValue("start-params", textBoxParams.Text);
+            InitMainProcess();
+        }
+
+
         private void setStartPath(string path)
         {
             textBoxStart.Text = path;
             ConfigFile.SetValue("start-path", path);
             InitMainProcess();
         }
-
         private void File_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -269,7 +309,7 @@ namespace WorkermanDev
             {
                 string p = ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
                 FileInfo fi = new FileInfo(p);
-                if(fi.Extension.ToLower().Equals(".exe") && fi.Name.ToLower().Equals("php"))
+                if(fi.Extension.ToLower().Equals(".exe"))
                 {
                     setPhpPath(p);
                 }
@@ -290,9 +330,27 @@ namespace WorkermanDev
             {
                 string p = ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
                 FileInfo fi = new FileInfo(p);
-                if (fi.Extension.ToLower().Equals(".php"))
+                setStartPath(p);
+            }
+            catch
+            {
+                MessageBox.Show("Error", "Please select a php file(*.php)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void textBoxStart_TextChanged(object sender, EventArgs e)
+        {
+            setStartPath(textBoxStart.Text);
+        }
+
+        private void textBoxIni_DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                string p = ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+                FileInfo fi = new FileInfo(p);
+                if (fi.Extension.ToLower().Equals(".ini"))
                 {
-                    setStartPath(p);
+                    setIniPath(p);
                 }
                 else
                 {
@@ -301,10 +359,9 @@ namespace WorkermanDev
             }
             catch
             {
-                MessageBox.Show("Error", "Please select a php file(*.php)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error", "Please select an ini file", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void numericUpDownDebounce_ValueChanged(object sender, EventArgs e)
         {
             var d = (int)numericUpDownDebounce.Value;
@@ -412,5 +469,7 @@ namespace WorkermanDev
         {
             Process.Start("https://github.com/Itinysun/WorkermanDev");
         }
+
+
     }
 }

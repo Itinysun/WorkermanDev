@@ -150,10 +150,10 @@ namespace WorkermanDev.Lib
 
         }
 
-        public static void Init(string php,string start)
+        public static void Init(string php,string start,string ini ,string param)
         {
             startInfo.FileName = php;
-            startInfo.Arguments = start;
+            startInfo.Arguments = String.Format(" -c {0} {1} {2}",ini,start,param);
             startInfo.UseShellExecute = false;
             startInfo.RedirectStandardInput = true;
             startInfo.RedirectStandardOutput = true;
@@ -174,7 +174,7 @@ namespace WorkermanDev.Lib
         {
             if (e.Data != null && !hideErrors.Contains(e.Data))
             {
-                OnProcessError?.Invoke("Error on receive data from main process",new Exception(e.Data));
+                OnProcessError?.Invoke(null,new Exception(e.Data));
             }
         }
 

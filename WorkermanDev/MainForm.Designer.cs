@@ -69,6 +69,12 @@
             this.TsbDeleteMonitor = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.buttonSelectIni = new System.Windows.Forms.Button();
+            this.textBoxIni = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBoxParams = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.buttonSaveParams = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -110,7 +116,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(800, 535);
+            this.tabControl1.Size = new System.Drawing.Size(800, 618);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -220,7 +226,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(792, 501);
+            this.tabPage2.Size = new System.Drawing.Size(792, 584);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Configs";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -232,7 +238,7 @@
             this.groupBox4.Controls.Add(this.CbFilter);
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox4.Location = new System.Drawing.Point(6, 381);
+            this.groupBox4.Location = new System.Drawing.Point(3, 473);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(778, 108);
             this.groupBox4.TabIndex = 3;
@@ -288,7 +294,7 @@
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox3.Location = new System.Drawing.Point(6, 256);
+            this.groupBox3.Location = new System.Drawing.Point(0, 371);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(778, 96);
             this.groupBox3.TabIndex = 3;
@@ -335,13 +341,16 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.textBoxParams);
             this.groupBox2.Controls.Add(this.textBoxStart);
+            this.groupBox2.Controls.Add(this.buttonSaveParams);
             this.groupBox2.Controls.Add(this.buttonStartpath);
             this.groupBox2.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox2.Location = new System.Drawing.Point(6, 131);
+            this.groupBox2.Location = new System.Drawing.Point(3, 196);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(778, 106);
+            this.groupBox2.Size = new System.Drawing.Size(778, 169);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Start-path";
@@ -380,13 +389,16 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.textBoxIni);
+            this.groupBox1.Controls.Add(this.buttonSelectIni);
             this.groupBox1.Controls.Add(this.textBoxPhp);
             this.groupBox1.Controls.Add(this.buttonSelectPhp);
             this.groupBox1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(778, 105);
+            this.groupBox1.Size = new System.Drawing.Size(778, 184);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "PHP-path";
@@ -530,11 +542,76 @@
             this.toolStripLabel1.Size = new System.Drawing.Size(251, 22);
             this.toolStripLabel1.Text = "The operation will take effect immediately";
             // 
+            // buttonSelectIni
+            // 
+            this.buttonSelectIni.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.buttonSelectIni.Location = new System.Drawing.Point(649, 138);
+            this.buttonSelectIni.Name = "buttonSelectIni";
+            this.buttonSelectIni.Size = new System.Drawing.Size(110, 31);
+            this.buttonSelectIni.TabIndex = 2;
+            this.buttonSelectIni.Text = "Select";
+            this.buttonSelectIni.UseVisualStyleBackColor = true;
+            this.buttonSelectIni.Click += new System.EventHandler(this.buttonSelectIni_Click);
+            // 
+            // textBoxIni
+            // 
+            this.textBoxIni.AllowDrop = true;
+            this.textBoxIni.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBoxIni.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.textBoxIni.Location = new System.Drawing.Point(10, 140);
+            this.textBoxIni.Name = "textBoxIni";
+            this.textBoxIni.Size = new System.Drawing.Size(621, 26);
+            this.textBoxIni.TabIndex = 1;
+            this.textBoxIni.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBoxIni_DragDrop);
+            this.textBoxIni.DragEnter += new System.Windows.Forms.DragEventHandler(this.File_DragDrop);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.Location = new System.Drawing.Point(8, 107);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(257, 21);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Select or Drag Drop php.ini here";
+            // 
+            // textBoxParams
+            // 
+            this.textBoxParams.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBoxParams.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.textBoxParams.Location = new System.Drawing.Point(10, 119);
+            this.textBoxParams.Name = "textBoxParams";
+            this.textBoxParams.Size = new System.Drawing.Size(621, 26);
+            this.textBoxParams.TabIndex = 1;
+            this.textBoxParams.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBoxStart_DragDrop);
+            this.textBoxParams.DragEnter += new System.Windows.Forms.DragEventHandler(this.File_DragDrop);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label7.Location = new System.Drawing.Point(9, 88);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(150, 21);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "input params here";
+            // 
+            // buttonSaveParams
+            // 
+            this.buttonSaveParams.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.buttonSaveParams.Location = new System.Drawing.Point(649, 119);
+            this.buttonSaveParams.Name = "buttonSaveParams";
+            this.buttonSaveParams.Size = new System.Drawing.Size(110, 31);
+            this.buttonSaveParams.TabIndex = 2;
+            this.buttonSaveParams.Text = "Save";
+            this.buttonSaveParams.UseVisualStyleBackColor = true;
+            this.buttonSaveParams.Click += new System.EventHandler(this.buttonSaveParams_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 535);
+            this.ClientSize = new System.Drawing.Size(800, 618);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
@@ -613,6 +690,12 @@
         private System.Windows.Forms.TextBox TbFilter;
         private System.Windows.Forms.CheckBox CbFilter;
         private System.Windows.Forms.Button BtConfirmFilter;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox textBoxParams;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBoxIni;
+        private System.Windows.Forms.Button buttonSelectIni;
+        private System.Windows.Forms.Button buttonSaveParams;
     }
 }
 

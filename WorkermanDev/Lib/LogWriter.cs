@@ -60,8 +60,10 @@ namespace WorkermanDev.Lib
         }
         public static void WriteErrorLog(string content,Exception e)
         {
-            OnLogWrite?.Invoke(new LogEvent.LogWriteEventArgs { content = content,color=Color.Red });
-            OnLogWrite?.Invoke(new LogEvent.LogWriteEventArgs { content=e.Message, color = Color.Red });
+            if(content!=null)  
+                OnLogWrite?.Invoke(new LogEvent.LogWriteEventArgs { content = content,color=Color.Red });
+            if (e != null)
+                OnLogWrite?.Invoke(new LogEvent.LogWriteEventArgs { content=e.Message, color = Color.Red });
 
         }
         public static void CleanScreen(string content = "")
